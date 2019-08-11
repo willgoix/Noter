@@ -47,7 +47,7 @@ public class Database {
         if (connection == null) {
             connection = createConnection();
             try {
-                connection.setAutoCommit(false);
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
