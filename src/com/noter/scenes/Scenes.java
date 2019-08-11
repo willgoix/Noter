@@ -5,9 +5,10 @@ package com.noter.scenes;
  */
 public enum Scenes {
 
-    AUTHENTICATION("auth/auth.fxml", 800, 600),
-    REGISTER("register/register.fxml", 800, 600),
-    FORGOT_PASSWORD("forgot_password.fxml", 800, 600);
+    SPLASH("splash/splash.fxml", 680, 500),
+    AUTHENTICATION("auth/auth.fxml", 680, 500),
+    REGISTER("register/register.fxml", 680, 500),
+    FORGOT_PASSWORD("forgotPassword/forgot_password.fxml", 680, 500);
 
     private String path;
     private int width;
