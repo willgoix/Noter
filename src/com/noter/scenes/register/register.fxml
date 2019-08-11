@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="680.0" style="-fx-background-color: #13383d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.noter.scenes.register.RegisterController">
+   <children>
+      <JFXButton layoutX="556.0" onAction="#handleGoBack" prefHeight="500.0" prefWidth="125.0" style="-fx-background-color: #FACCAB; -fx-background-radius: 0;" text=" " />
+      <FontAwesomeIconView fill="#13383d" glyphName="ANGLE_RIGHT" layoutX="594.0" layoutY="90.0" onMousePressed="#handleGoBack" size="60" textAlignment="CENTER" wrappingWidth="50.0" />
+      <Text fill="#c7ced0" layoutX="225.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Criar uma conta" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <JFXTextField fx:id="usernameField" focusColor="#266d74" labelFloat="true" layoutX="187.0" layoutY="129.0" prefHeight="30.0" prefWidth="203.0" promptText="Nome de usuário" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="emailField" focusColor="#266d74" labelFloat="true" layoutX="187.0" layoutY="189.0" prefHeight="30.0" prefWidth="203.0" promptText="Email" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextField>
+      <Group layoutX="187.0" layoutY="249.0">
+         <children>
+            <JFXPasswordField fx:id="passwordFieldSecure" focusColor="#266d74" labelFloat="true" prefHeight="30.0" prefWidth="203.0" promptText="Senha" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXTextField fx:id="passwordField" focusColor="#266d74" labelFloat="true" prefHeight="30.0" prefWidth="203.0" promptText="Senha" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXCheckBox fx:id="checkboxPassword" checkedColor="#175459" layoutX="181.0" layoutY="6.0" prefHeight="20.0" prefWidth="0.0" text=" " unCheckedColor="#facdac80" />
+         </children>
+      </Group>
+      <Group layoutX="187.0" layoutY="309.0">
+         <children>
+            <JFXPasswordField fx:id="confirmPasswordFieldSecure" focusColor="#266d74" labelFloat="true" prefHeight="30.0" prefWidth="203.0" promptText="Confirmar Senha" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXTextField fx:id="confirmPasswordField" focusColor="#266d74" labelFloat="true" prefHeight="30.0" prefWidth="203.0" promptText="Confirmar Senha" style="-fx-text-inner-color: #c1c9cc;" unFocusColor="#faccab" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXCheckBox fx:id="checkboxConfirmPassword" checkedColor="#175459" layoutX="181.0" layoutY="6.0" prefHeight="20.0" prefWidth="0.0" text=" " unCheckedColor="#facdac80" />
+         </children>
+      </Group>
+      <JFXButton layoutX="230.0" layoutY="370.0" onAction="#handleCreateAccount" prefHeight="39.0" prefWidth="118.0" ripplerFill="#266c73" style="-fx-background-color: #FACCAB; -fx-background-radius: 0;" text="Criar conta" textFill="#175459">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
