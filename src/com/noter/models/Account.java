@@ -8,11 +8,13 @@ public class Account {
     private String username;
     private String email;
     private String password;
+    private String passwordSalt;
 
-    public Account(String username, String email, String password) {
+    public Account(String username, String email, String password, String passwordSalt) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.passwordSalt = passwordSalt;
     }
 
     public String getUsername() {
@@ -33,5 +35,13 @@ public class Account {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
     }
 }

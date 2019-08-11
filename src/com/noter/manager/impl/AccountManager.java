@@ -7,6 +7,7 @@ import com.noter.storage.NoterStorage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Willian Gois (github/willgoix)
@@ -19,25 +20,36 @@ public class AccountManager implements IAccountManager {
 
     public AccountManager(NoterStorage storage) {
         this.storage = new AccountStorage(storage);
-        this.accounts = null;
+        this.accounts = new HashMap<>();
+
+        this.accounts.putAll(this.storage.getAccounts());
     }
 
-    @Override
     public void addAccount(Account account) {
         this.accounts.put(account.getUsername(), account);
     }
 
-    @Override
     public void updateAccount(Account account) {
         addAccount(account);
     }
 
-    @Override
     public void removeAccount(Account account) {
         this.accounts.remove(account.getUsername());
     }
 
+    public Optional<Account> getAccountByUsername(String username) {
+        return Optional.ofNullable(this.accounts.get(username));
+    }
+
+    public Optional<Account> getAccountByEmail(String email) {
+        return this.accounts.values().stream().filter(account -> account.getEmail().equalsIgnoreCase(email)).findFirst();
+    }
+
     public Map<String, Account> getAccounts() {
         return accounts;
+    }
+
+    public AccountStorage getStorage() {
+        return storage;
     }
 }
