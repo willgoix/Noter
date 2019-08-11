@@ -1,18 +1,20 @@
 package com.noter.scenes.auth;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.jfoenix.validation.base.ValidatorBase;
+import com.noter.Main;
+import com.noter.Noter;
+import com.noter.models.Account;
+import com.noter.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AuthController implements Initializable {
@@ -31,53 +33,78 @@ public class AuthController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Avoid SQL Injection
-        RegexValidator regexValidator = new RegexValidator("Campo inválido.");
-        regexValidator.setRegexPattern("/[\\t\\r\\n]|(--[^\\r\\n]*)|(\\/\\*[\\w\\W]*?(?=\\*)\\*\\/)/gi");
+        //Prevent SQL Injection
+        RegexValidator regexSQLValidator = new RegexValidator("Não use espaços e aspas");
+        regexSQLValidator.setRegexPattern("[\\\"\\'\\ \\\\]");
+
+        //Check valid username
+        RegexValidator regexUserValidator = new RegexValidator("Usuário inválido");
+        regexUserValidator.setRegexPattern("^(?=.{4,36}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$");
 
         /* Username field */
-        usernameField.setValidators(new RequiredFieldValidator("Insira o usuário!"), regexValidator);
-        usernameField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    usernameField.resetValidation();
-                }
+        ValidatorBase[] usernameValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira o usuário!"), regexUserValidator};
+
+        usernameField.setValidators(usernameValidators);
+        usernameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                usernameField.resetValidation();
             }
         });
 
         /* Password field's */
+        ValidatorBase[] passwordValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira uma senha!")};
+
         passwordFieldSecure.textProperty().bindBidirectional(passwordField.textProperty());
         passwordFieldSecure.visibleProperty().bind(checkboxPassword.selectedProperty().not());
         passwordField.visibleProperty().bind(checkboxPassword.selectedProperty());
 
-        passwordField.setValidators(new RequiredFieldValidator("Insira uma senha!"), regexValidator);
-        passwordField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    passwordField.resetValidation();
-                }
+        passwordField.setValidators(passwordValidators);
+        passwordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                passwordField.resetValidation();
             }
         });
 
-        passwordFieldSecure.setValidators(new RequiredFieldValidator("Insira uma senha!"), regexValidator);
-        passwordFieldSecure.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    passwordFieldSecure.resetValidation();
-                }
+        passwordFieldSecure.setValidators(passwordValidators);
+        passwordFieldSecure.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                passwordFieldSecure.resetValidation();
             }
         });
     }
 
-    public void authenticate() {
-        usernameField.validate();
-        if (passwordField.isDisabled()) {
-            passwordFieldSecure.validate();
-        } else {
-            passwordField.validate();
+    @FXML
+    public void handleClose() {
+        try {
+            System.exit(0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleAuthenticate() {
+        if (usernameField.validate() && (passwordField.isVisible() ? passwordField.validate() : passwordFieldSecure.validate())) {
+            String username = usernameField.getText();
+            String password = (passwordField.isVisible() ? passwordField.getText() : passwordFieldSecure.getText());
+
+            Optional<Account> accountOptional = Noter.getNoter().getAuthManager().auth(username, password);
+
+            if (accountOptional.isPresent()) {
+                Noter.getNoter().getSessionManager().startSessionWithNewAccount(accountOptional.get());
+            } else {
+                System.out.println("errado");
+            }
+        }
+    }
+
+    @FXML
+    public void handleForgotPassword() {
+        Noter.getNoter().getSceneController().changeScene(Scenes.FORGOT_PASSWORD);
+    }
+
+    @FXML
+    public void handleCreateAccount() {
+        Noter.getNoter().getSceneController().changeScene(Scenes.REGISTER);
     }
 }
