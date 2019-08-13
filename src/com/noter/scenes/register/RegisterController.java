@@ -41,6 +41,9 @@ public class RegisterController implements Initializable {
     @FXML
     private JFXCheckBox checkboxConfirmPassword;
 
+    private boolean usernameAlreadyUsed = false;
+    private boolean emailAlreadyUsed = false;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Prevent SQL Injection
@@ -56,7 +59,13 @@ public class RegisterController implements Initializable {
         regexEmailValidator .setRegexPattern("^((?!\\.)[\\w-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$");
 
         /* Username field */
-        ValidatorBase[] usernameValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira o usuário!"), regexUserValidator};
+        ValidatorBase[] usernameValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira o usuário"), regexUserValidator,
+                new ValidatorBase("Nome de usuário em uso") {
+                    protected void eval() {
+                        this.hasErrors.set(usernameAlreadyUsed);
+                    }
+                }
+        };
 
         usernameField.setValidators(usernameValidators);
         usernameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,7 +75,13 @@ public class RegisterController implements Initializable {
         });
 
         /* Email field */
-        ValidatorBase[] emailValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira o email!"), regexEmailValidator};
+        ValidatorBase[] emailValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira o email"), regexEmailValidator,
+                new ValidatorBase("Email em uso") {
+                    protected void eval() {
+                        this.hasErrors.set(usernameAlreadyUsed);
+                    }
+                }
+        };
 
         emailField.setValidators(emailValidators);
         emailField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -76,7 +91,7 @@ public class RegisterController implements Initializable {
         });
 
         /* Password field's */
-        ValidatorBase[] passwordValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira uma senha!")};
+        ValidatorBase[] passwordValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira uma senha")};
 
         passwordFieldSecure.textProperty().bindBidirectional(passwordField.textProperty());
         passwordFieldSecure.visibleProperty().bind(checkboxPassword.selectedProperty().not());
@@ -97,17 +112,13 @@ public class RegisterController implements Initializable {
         });
 
         /* Confirm password field's */
-        ValidatorBase[] confirmPasswordValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira uma senha!"),
+        ValidatorBase[] confirmPasswordValidators = new ValidatorBase[]{new RequiredFieldValidator("Insira outra vez a senha"),
                 new ValidatorBase("As senhas não coincidem!") {
                     protected void eval() {
-                        this.evalTextInputField();
-                    }
-
-                    private void evalTextInputField() {
                         TextInputControl textField = (TextInputControl) this.srcControl.get();
                         String text = textField.getText();
 
-                        this.hasErrors.set(text.equals(passwordField.getText()));
+                        this.hasErrors.set(!text.equals(passwordField.getText()));
                     }
                 }
         };
@@ -138,19 +149,26 @@ public class RegisterController implements Initializable {
 
     @FXML
     public void handleCreateAccount() {
-        if (usernameField.validate() && emailField.validate() && (passwordField.isVisible() ? passwordField.validate() : passwordFieldSecure.validate())) {
+        if (usernameField.validate() &&
+                emailField.validate() &&
+                (passwordField.isVisible() ? passwordField.validate() : passwordFieldSecure.validate()) &&
+                (confirmPasswordField.isVisible() ? confirmPasswordField.validate() : confirmPasswordFieldSecure.validate())) {
             String username = usernameField.getText();
             String email = emailField.getText().toLowerCase();
             String password = confirmPasswordField.isVisible() ? confirmPasswordField.getText() : confirmPasswordFieldSecure.getText();
 
             if (Noter.getNoter().getAccountManager().getAccountByUsername(username).isPresent()) {
-                usernameField.getActiveValidator().setMessage("Nome de usuário em uso");
+                usernameAlreadyUsed = true;
                 return;
+            } else if (usernameAlreadyUsed) {
+                usernameAlreadyUsed = false;
             }
 
             if (Noter.getNoter().getAccountManager().getAccountByEmail(email).isPresent()) {
-                emailField.getActiveValidator().setMessage("Email em uso");
+                emailAlreadyUsed = true;
                 return;
+            } else if (emailAlreadyUsed) {
+                emailAlreadyUsed = false;
             }
 
             Account account = Noter.getNoter().getAuthManager().register(
