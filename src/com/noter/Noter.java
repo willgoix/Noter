@@ -2,6 +2,7 @@ package com.noter;
 
 import com.noter.manager.impl.AccountManager;
 import com.noter.manager.impl.AuthManager;
+import com.noter.manager.impl.ProjectManager;
 import com.noter.manager.impl.SessionManager;
 import com.noter.scenes.SceneController;
 import com.noter.scenes.Scenes;
@@ -30,6 +31,7 @@ public class Noter {
     private AccountManager accountManager;
     private AuthManager authManager;
     private SessionManager sessionManager;
+    private ProjectManager projectManager;
 
     public Noter(Stage primaryStage) {
         noter = this;
@@ -44,6 +46,11 @@ public class Noter {
         this.accountManager = new AccountManager(storage);
         this.authManager = new AuthManager(this.accountManager);
         this.sessionManager = new SessionManager();
+        this.projectManager = new ProjectManager(storage);
+    }
+
+    public void start() {
+        this.projectManager.start(sessionManager.getLoggedAccount());
     }
 
     public SessionManager getSessionManager() {

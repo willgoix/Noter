@@ -1,5 +1,6 @@
 package com.noter.manager.impl;
 
+import com.noter.Noter;
 import com.noter.models.Account;
 
 /**
@@ -16,6 +17,7 @@ public class SessionManager {
     public void startSessionWithNewAccount(Account account) {
         setLoggedAccount(account);
 
+        Noter.getNoter().start();
         //TODO: Load projects and tasks to display
     }
 

@@ -5,14 +5,14 @@ package com.noter.storage;
  */
 public class NoterStorage extends Database {
 
+    private final String DATABASE = "noter";
     public final String TABLE_ACCOUNTS = "accounts";
+    public final String TABLE_PROJECTS = "projects";
+    public final String TABLE_PROJECT_MEMBERS = "project_members";
 
     public NoterStorage(String host, Integer port, String database, String user, String password) {
         super(host, port, database, user, password);
 
-        query("CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + "("
-                + "username VARCHAR(32) PRIMARY KEY NOT NULL,"
-                + "email VARCHAR(50),"
-                + "password VARCHAR(100));");
+        query("CREATE DATABASE IF NOT EXISTS " + DATABASE);
     }
 }
