@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.noter.Main;
 import com.noter.Noter;
 import com.noter.models.Account;
 import com.noter.scenes.Scenes;

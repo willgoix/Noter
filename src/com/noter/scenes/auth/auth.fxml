@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="680.0" style="-fx-background-color: #13383d;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.noter.scenes.auth.AuthController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="680.0" style="-fx-background-color: #13383d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.noter.scenes.auth.AuthController">
    <children>
       <ImageView fitHeight="66.0" fitWidth="129.0" layoutX="203.0" layoutY="67.0" preserveRatio="true">
          <image>
@@ -54,6 +55,6 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <FontAwesomeIconView fill="#faccab" glyphName="CLOSE" layoutX="642.0" layoutY="40.0" onMousePressed="#handleClose" size="30" />
+      <MaterialDesignIconView fill="#faccab" glyphName="CLOSE" layoutX="636.0" layoutY="40.0" size="30" />
    </children>
 </Pane>
