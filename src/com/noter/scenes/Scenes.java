@@ -8,7 +8,8 @@ public enum Scenes {
     SPLASH("splash/splash.fxml", 680, 500),
     AUTHENTICATION("auth/auth.fxml", 680, 500),
     REGISTER("register/register.fxml", 680, 500),
-    FORGOT_PASSWORD("forgotPassword/forgot_password.fxml", 680, 500);
+    FORGOT_PASSWORD("forgotPassword/forgot_password.fxml", 680, 500),
+    DASHBOARD("dashboard/dashboard.fxml", 680, 500);
 
     private String path;
     private int width;

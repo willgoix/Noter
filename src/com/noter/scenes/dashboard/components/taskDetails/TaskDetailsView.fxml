@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" layoutX="-1.0" layoutY="-3.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #828282;">
+         <children>
+            <CheckBox mnemonicParsing="false" onAction="#handleCompleted" text=" ">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </CheckBox>
+            <Text fx:id="taskName" strokeType="OUTSIDE" strokeWidth="0.0" text="Carregando..." />
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <MaterialDesignIconView glyphName="STAR_OUTLINE" onMouseClicked="#handleFavorite">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
