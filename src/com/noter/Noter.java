@@ -69,6 +69,10 @@ public class Noter {
         return sceneController;
     }
 
+    public ProjectManager getProjectManager() {
+        return projectManager;
+    }
+
     public NoterStorage getStorage() {
         return storage;
     }

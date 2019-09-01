@@ -20,26 +20,26 @@ public class ProjectStorage {
     public ProjectStorage(NoterStorage storage) {
         this.storage = storage;
 
-        storage.query(
+        /*storage.query(
                 "CREATE TABLE IF NOT EXISTS " + storage.TABLE_PROJECTS + "("
-                + "id INT PRIMARY KEY,"
-                + "name VARCHAR(32) NOT NULL,"
-                + "description VARCHAR(100),"
+                + "id INT PRIMARY KEY, "
+                + "name VARCHAR(32) NOT NULL, "
+                + "description VARCHAR(100), "
                 //+ "author VARCHAR(16),"
                 + "FOREIGN KEY (author) REFERENCES accounts(username));"
                 + " "
                 + "CREATE TABLE IF NOT EXISTS " + storage.TABLE_PROJECT_MEMBERS + "("
-                + "project INT NOT NULL,"
-                + "member VARCHAR(16) NOT NULL,"
-                + "role CHAR(1) NOT NULL,"
-                + "FOREIGN KEY (project) REFERENCES projects(id),"
+                + "taskDetails INT NOT NULL, "
+                + "member VARCHAR(16) NOT NULL, "
+                + "role CHAR(1) NOT NULL, "
+                + "FOREIGN KEY (taskDetails) REFERENCES projects(id), "
                 + "FOREIGN KEY (member) REFERENCES accounts(username));"
-        );
+        );*/
     }
 
     public void addProject(Project project, Account member, ProjectMemberRole role) {
         storage.query("INSERT INTO "+ storage.TABLE_PROJECTS + " (id, name, description) VALUES (?, ?, ?);" +
-                        "INSERT INTO "+ storage.TABLE_PROJECT_MEMBERS + " (project, member, role) VALUES (?, ?, ?);",
+                        "INSERT INTO "+ storage.TABLE_PROJECT_MEMBERS + " (taskDetails, member, role) VALUES (?, ?, ?);",
                 project.getID(),
                 project.getName(),
                 project.getDescription(),
@@ -57,7 +57,7 @@ public class ProjectStorage {
 
     public void removeProject(Project project) {
         storage.query("DELETE FROM " + storage.TABLE_PROJECTS + " WHERE id = ?;" +
-                        "DELETE FROM " + storage.TABLE_PROJECT_MEMBERS + " WHERE project = ?;",
+                        "DELETE FROM " + storage.TABLE_PROJECT_MEMBERS + " WHERE taskDetails = ?;",
                 project.getID(),
                 project.getID());
     }
@@ -65,9 +65,9 @@ public class ProjectStorage {
     public Map<Project, ProjectMemberRole> getProjectsByAccount(Account account) {
         HashMap<Project, ProjectMemberRole> projects = new HashMap<>();
 
-        String query = "SELECT "+ storage.TABLE_PROJECT_MEMBERS +".member, "+ storage.TABLE_PROJECT_MEMBERS +".role, "+ storage.TABLE_PROJECTS +".* FROM "+ storage.TABLE_ACCOUNTS +" LEFT JOIN "+ storage.TABLE_PROJECT_MEMBERS +" ON(member=username) LEFT JOIN "+ storage.TABLE_PROJECTS +" ON(id = project);";
+        String query = "SELECT "+ storage.TABLE_PROJECT_MEMBERS +".member, "+ storage.TABLE_PROJECT_MEMBERS +".role, "+ storage.TABLE_PROJECTS +".* FROM "+ storage.TABLE_ACCOUNTS +" LEFT JOIN "+ storage.TABLE_PROJECT_MEMBERS +" ON(member=username) LEFT JOIN "+ storage.TABLE_PROJECTS +" ON(id = taskDetails);";
         try (PreparedStatement statement = storage.getConnection().prepareStatement(query)) {
-            statement.setString(1, account.getUsername());
+            //statement.setString(1, account.getUsername());
 
             ResultSet result = statement.executeQuery();
 

@@ -1,5 +1,6 @@
 package com.noter.models;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ public class Project {
     private String name;
     private String description;
     private Account author;
+    private List<Task> tasks;
     private Map<Account, ProjectMemberRole> members;
 
     public Project(int id, String name, String description, Account author, Map<Account, ProjectMemberRole> members) {
@@ -52,6 +54,18 @@ public class Project {
 
     public void removeMember(Account account) {
         members.remove(account);
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     public Set<Account> getMembers() {
