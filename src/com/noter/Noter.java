@@ -4,6 +4,7 @@ import com.noter.manager.impl.AccountManager;
 import com.noter.manager.impl.AuthManager;
 import com.noter.manager.impl.ProjectManager;
 import com.noter.manager.impl.SessionManager;
+import com.noter.manager.impl.TokenManager;
 import com.noter.scenes.SceneController;
 import com.noter.scenes.Scenes;
 import com.noter.storage.NoterStorage;
@@ -32,6 +33,7 @@ public class Noter {
     private AuthManager authManager;
     private SessionManager sessionManager;
     private ProjectManager projectManager;
+    private TokenManager tokenManager;
 
     public Noter(Stage primaryStage) {
         noter = this;
@@ -47,6 +49,7 @@ public class Noter {
         this.authManager = new AuthManager(this.accountManager);
         this.sessionManager = new SessionManager();
         this.projectManager = new ProjectManager(storage);
+        this.tokenManager = new TokenManager(storage);
     }
 
     public void start() {
@@ -71,6 +74,10 @@ public class Noter {
 
     public ProjectManager getProjectManager() {
         return projectManager;
+    }
+
+    public TokenManager getTokenManager() {
+        return tokenManager;
     }
 
     public NoterStorage getStorage() {
