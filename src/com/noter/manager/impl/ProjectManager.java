@@ -4,6 +4,7 @@ import com.noter.Noter;
 import com.noter.models.Account;
 import com.noter.models.Project;
 import com.noter.models.ProjectMemberRole;
+import com.noter.models.Task;
 import com.noter.storage.NoterStorage;
 import com.noter.storage.ProjectStorage;
 
@@ -32,6 +33,11 @@ public class ProjectManager {
     public void addProject(Project project) {
         projects.put(project, ProjectMemberRole.AUTHOR);
         storage.addProject(project, Noter.getNoter().getSessionManager().getLoggedAccount(), ProjectMemberRole.AUTHOR);
+    }
+
+    public void addTask(Project project, Task task) {
+        project.getTasks().add(task);
+        storage.addTask(project, task);
     }
 
     public void removeProject(Project project) {

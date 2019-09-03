@@ -1,7 +1,10 @@
 package com.noter.models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -16,12 +19,17 @@ public class Project {
     private List<Task> tasks;
     private Map<Account, ProjectMemberRole> members;
 
-    public Project(int id, String name, String description, Account author, Map<Account, ProjectMemberRole> members) {
+    public Project(int id, String name, String description, Account author, List<Task> tasks, Map<Account, ProjectMemberRole> members) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.author = author;
+        this.tasks = tasks;
         this.members = members;
+    }
+
+    public Project(String name, Account author) {
+        this(new Random().nextInt(10000), name, null, author, new ArrayList<>(), new HashMap<>());
     }
 
     public int getID() {
@@ -90,6 +98,6 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project [" + "id = " + id + "name = " + name + "description = " + description + "]";
+        return "Project [" + "id = " + id + ", name = " + name + ", description = " + description + "]";
     }
 }
